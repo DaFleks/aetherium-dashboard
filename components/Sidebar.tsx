@@ -24,11 +24,10 @@ const Sidebar = () => {
   return (
     <Container
       as="aside"
-      className={` ${!collapse && "w-1/4 px-4"} py-4 grow bg-slate-100 text-slate-500 font-semibold relative space-y-6  shadow-xl shadow-slate-300`}>
-      <Button
-        variant="ghost"
-        className="absolute top-[49.75%] -right-5 hover:bg-transparent hover:text-slate-400"
-        onClick={handleCollapse}>
+      className={` ${
+        !collapse && "w-1/4 px-4"
+      } py-4 grow bg-slate-100 text-slate-500 font-semibold relative space-y-6  shadow-xl shadow-slate-300`}>
+      <Button variant="ghost" className="absolute top-[49.75%] -right-5 hover:bg-transparent hover:text-slate-400" onClick={handleCollapse}>
         {collapse ? (
           <ChevronRightCircleIcon className="bg-slate-100 rounded-full" />
         ) : (
