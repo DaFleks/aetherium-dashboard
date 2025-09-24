@@ -1,5 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
-// import { signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { FormEvent } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -16,12 +16,12 @@ export type AuthenticateResponse = {
   message?: string;
 };
 
-// export async function authenticateLogin(email: string, password: string): Promise<AuthenticateResponse> {
-//   return new Promise(async (resolve) => {
-//     const response: AuthenticateResponse = await signIn("credentials", { email, password, redirect: false });
+export async function authenticateLogin(email: string, password: string): Promise<AuthenticateResponse> {
+  return new Promise(async (resolve) => {
+    const response: AuthenticateResponse = await signIn("credentials", { email, password, redirect: false });
 
-//     if (response.error) resolve({ ...response, message: "There was an error, please contact an admin." });
+    if (response.error) resolve({ ...response, message: "There was an error, please contact an admin." });
 
-//     resolve(response);
-//   });
-// }
+    resolve(response);
+  });
+}

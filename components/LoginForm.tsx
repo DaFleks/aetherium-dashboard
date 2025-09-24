@@ -11,7 +11,7 @@ import { Button } from "./ui/button";
 
 import { toast } from "sonner";
 
-// import { authenticateLogin } from "@/lib/utils";
+import { authenticateLogin } from "@/lib/utils";
 
 import googleIcon from "@/public/icons/google.png";
 import githubIcon from "@/public/icons/github.png";
@@ -35,15 +35,15 @@ const LoginForm = ({ toggleLoading }: { toggleLoading: () => void }) => {
     e.preventDefault();
     toggleLoading();
 
-    // const response = await authenticateLogin(email, password);
+    const response = await authenticateLogin(email, password);
 
-    // if (response.message) {
-    //   handleReset();
-    //   toggleLoading();
-    //   toast.error("The credentials you entered don't match our records.");
-    // } else {
-    //   router.push("/dashboard");
-    // }
+    if (response.message) {
+      handleReset();
+      toggleLoading();
+      toast.error("The credentials you entered don't match our records.");
+    } else {
+      router.push("/dashboard");
+    }
   };
 
   return (
