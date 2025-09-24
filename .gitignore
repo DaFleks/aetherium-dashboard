@@ -2,6 +2,7 @@
 
 #prisma
 /prisma/dev.db
+/prisma/seed.js
 
 # dependencies
 /node_modules
