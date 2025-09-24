@@ -35,13 +35,13 @@ const Sidebar = () => {
         )}
       </Button>
 
-      <SidebarBtn href="/dashboard/products" icon={LayoutDashboardIcon} text="Dashboard" collapse={collapse} />
+      <SidebarBtn href="/dashboard" icon={LayoutDashboardIcon} text="Dashboard" collapse={collapse} />
+      <SidebarBtn href="/dashboard/users" icon={UserCircle2Icon} text="Users" collapse={collapse} />
+      <SidebarBtn href="/dashboard/orders" icon={PackageIcon} text="Orders" collapse={collapse} />
       <SidebarBtn href="/dashboard/products" icon={TagIcon} text="Products" collapse={collapse} />
-      <SidebarBtn href="/dashboard/products" icon={CreditCardIcon} text="Customers" collapse={collapse} />
-      <SidebarBtn href="/dashboard/products" icon={UserCircle2Icon} text="Users" collapse={collapse} />
-      <SidebarBtn href="/dashboard/products" icon={PackageIcon} text="Orders" collapse={collapse} />
-      <SidebarBtn href="/dashboard/products" icon={CircleDollarSignIcon} text="Sales" collapse={collapse} />
-      <SidebarBtn href="/dashboard/products" icon={ChartBarIncreasingIcon} text="Analytics" collapse={collapse} />
+      <SidebarBtn href="/dashboard/customers" icon={CreditCardIcon} text="Customers" collapse={collapse} />
+      <SidebarBtn href="/dashboard/sales" icon={CircleDollarSignIcon} text="Sales" collapse={collapse} />
+      <SidebarBtn href="/dashboard/analytics" icon={ChartBarIncreasingIcon} text="Analytics" collapse={collapse} />
       <Separator className={`bg-slate-300 mx-auto ${collapse ? "!w-[50%]" : "!w-[90%]"}`} />
       <SidebarBtn
         icon={LogOutIcon}
