@@ -12,7 +12,7 @@ import Container from "./aetherium/Container";
 import NavButton from "./NavButton";
 import Text from "./aetherium/Text";
 
-import Logo from "../Logo";
+import Logo from "./Logo";
 
 interface NavbarProps {
   name: string;
