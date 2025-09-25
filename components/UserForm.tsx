@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { UserCircleIcon } from "lucide-react";
 
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -19,7 +20,7 @@ import provinces from "@/lib/provinces.json";
 import { userSchema } from "@/lib/formSchemas";
 
 const UserForm = () => {
-  const [avatarImage, setAvatarImage] = useState<string | undefined>("");
+  const [avatarImage, setAvatarImage] = useState<string | undefined>(undefined);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileClick = () => {
@@ -27,6 +28,7 @@ const UserForm = () => {
   };
 
   const handleClearAvatar = () => {
+    inputRef.current!.value = "";
     setAvatarImage(undefined);
   };
 
@@ -57,12 +59,11 @@ const UserForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 grid grid-cols-2 gap-4">
         {/* AVATAR */}
         <Container className="flex flex-col justify-center items-center gap-12 bg-slate-100 rounded-xl h-full border">
-          <Avatar className="size-56 text-5xl shadow-lg shadow-neutral-500">
+          <Avatar className="size-56 text-5xl shadow-lg shadow-neutral-300">
             <AvatarImage src={avatarImage} />
-            <AvatarFallback className="bg-neutral-300 border border-slate-300">
-              <UserCircleIcon className="w-24 h-24 text-white" />
+            <AvatarFallback className="bg-neutral-100 border border-slate-300">
+              <UserCircleIcon className="w-24 h-24 text-neutral-400" />
             </AvatarFallback>
-
             <FormField
               control={form.control}
               name="avatar"
@@ -75,6 +76,7 @@ const UserForm = () => {
                       ref={inputRef}
                       className="hidden"
                       onChange={(e) => {
+                        console.log("ONCHANGE CALLED");
                         const file = e.target.files?.[0] || null;
                         field.onChange(file);
                         if (file) setAvatarImage(URL.createObjectURL(file));
@@ -85,16 +87,9 @@ const UserForm = () => {
               )}
             />
           </Avatar>
-
-          {avatarImage ? (
-            <Button type="button" onClick={handleClearAvatar}>
-              Remove Photo
-            </Button>
-          ) : (
-            <Button type="button" onClick={handleFileClick}>
-              Upload Photo
-            </Button>
-          )}
+          <Button variant="outline" type="button" className="w-1/2" onClick={avatarImage ? handleClearAvatar : handleFileClick}>
+            {`${avatarImage ? "Remove" : "Upload"} Photo`}
+          </Button>
         </Container>
 
         <Container className="space-y-4 bg-slate-100 rounded-xl p-8 border">
