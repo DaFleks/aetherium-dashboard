@@ -23,7 +23,7 @@ const LabelInput = ({ id, label, className, ...props }: LabelInputProps) => {
     <Container className={cn("space-y-2", className)}>
       {label && <Label htmlFor={id}>{label}</Label>}
       {id !== "password" ? (
-        <Input id={id} name={id} {...props} className="bg-white/50 text-slate-800 font-semibold" />
+        <Input id={id} name={id} {...props} className="bg-white text-slate-800 font-semibold" />
       ) : (
         <Container className="relative">
           <Input

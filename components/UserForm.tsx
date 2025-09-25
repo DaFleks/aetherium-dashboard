@@ -1,27 +1,33 @@
 "use client";
 
-import Container from "./aetherium/Container";
-import LabelInput from "./aetherium/LabelInput";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "./ui/label";
-import provinces from "@/lib/provinces.json";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "./ui/input";
 import { useRef, useState } from "react";
-import { Button } from "./ui/button";
-import { CameraIcon } from "lucide-react";
-import { userSchema } from "@/lib/formSchemas";
-import { useForm } from "react-hook-form";
+
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Label } from "./ui/label";
+import { Button } from "./ui/button";
+
+import Container from "./aetherium/Container";
+import LabelInput from "./aetherium/LabelInput";
+
+import provinces from "@/lib/provinces.json";
+import { userSchema } from "@/lib/formSchemas";
 
 const UserForm = () => {
-  const [avatarImage, setAvatarImage] = useState("");
+  const [avatarImage, setAvatarImage] = useState<string | undefined>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileClick = () => {
     inputRef.current?.click();
+  };
+
+  const handleClearAvatar = () => {
+    setAvatarImage(undefined);
   };
 
   const form = useForm<z.infer<typeof userSchema>>({
@@ -50,10 +56,12 @@ const UserForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 grid grid-cols-2 gap-4">
         {/* AVATAR */}
-        <Container className="flex flex-col justify-center items-center gap-12">
-          <Avatar className="size-56 text-5xl shadow-lg shadow-slate-500">
+        <Container className="flex flex-col justify-center items-center gap-12 bg-slate-100 rounded-xl h-full border">
+          <Avatar className="size-56 text-5xl shadow-lg shadow-neutral-500">
             <AvatarImage src={avatarImage} />
-            <AvatarFallback />
+            <AvatarFallback className="bg-neutral-300 border border-slate-300">
+              <UserCircleIcon className="w-24 h-24 text-white" />
+            </AvatarFallback>
 
             <FormField
               control={form.control}
@@ -77,15 +85,19 @@ const UserForm = () => {
               )}
             />
           </Avatar>
-          <Container className="grid grid-cols-2 gap-4">
-            <Button type="button" onClick={handleFileClick}>
-              Upload
+
+          {avatarImage ? (
+            <Button type="button" onClick={handleClearAvatar}>
+              Remove Photo
             </Button>
-            <Button type="button">Clear</Button>
-          </Container>
+          ) : (
+            <Button type="button" onClick={handleFileClick}>
+              Upload Photo
+            </Button>
+          )}
         </Container>
 
-        <Container className="space-y-4">
+        <Container className="space-y-4 bg-slate-100 rounded-xl p-8 border">
           <Container className="grid grid-cols-2 gap-4">
             {/* EMAIL */}
             <FormField
@@ -94,9 +106,9 @@ const UserForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <LabelInput id="email" label="Email" {...field} />
+                    <LabelInput id="email" label="Email" placeholder="Email" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -108,9 +120,9 @@ const UserForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <LabelInput id="password" label="Password" type="password" {...field} />
+                    <LabelInput id="password" label="Password" type="password" placeholder="Password" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -128,7 +140,7 @@ const UserForm = () => {
                     <FormControl>
                       <LabelInput id="firstName" placeholder="First Name" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -142,7 +154,7 @@ const UserForm = () => {
                     <FormControl>
                       <LabelInput id="lastName" placeholder="Last Name" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -160,7 +172,7 @@ const UserForm = () => {
                   <FormItem>
                     <Select onValueChange={field.onChange} defaultValue="GUEST">
                       <FormControl>
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger id="role" className="w-full">
                           <SelectValue placeholder="Role" />
                         </SelectTrigger>
                       </FormControl>
@@ -170,7 +182,7 @@ const UserForm = () => {
                         <SelectItem value="GUEST">Guest</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -185,7 +197,7 @@ const UserForm = () => {
                   <FormControl>
                     <LabelInput id="permissions" label="Permissions (comma separated)" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -201,7 +213,7 @@ const UserForm = () => {
                   <FormControl>
                     <LabelInput id="streetAddress" label="Street" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -215,12 +227,12 @@ const UserForm = () => {
                   <FormControl>
                     <LabelInput id="city" label="City" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
 
-            <Container className="space-y-2 col-span-3">
+            <Container className="space-y-2 col-span-2">
               {/* PROVINCE */}
               <Label htmlFor="role">Province</Label>
               <FormField
@@ -229,7 +241,7 @@ const UserForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <Select onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-full overflow-hidden">
                         <SelectValue placeholder="Province" />
                       </SelectTrigger>
                       <SelectContent side="right">
@@ -240,7 +252,7 @@ const UserForm = () => {
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -251,11 +263,11 @@ const UserForm = () => {
               control={form.control}
               name="postalCode"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="col-span-2">
                   <FormControl>
                     <LabelInput id="postalCode" label="Postal Code" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -269,13 +281,13 @@ const UserForm = () => {
                   <FormControl>
                     <LabelInput id="phoneNumber" label="Phone Number" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
           </Container>
 
-          <Button type="submit" className="w-1/2 mx-auto flex py-6 mt-6">
+          <Button type="submit" className="w-1/2 ml-auto flex mt-6">
             Submit
           </Button>
         </Container>
