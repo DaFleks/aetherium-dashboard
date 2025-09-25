@@ -8,18 +8,20 @@ import Container from "./Container";
 import { Button } from "../ui/button";
 import { EyeIcon } from "lucide-react";
 import { useToggle } from "@/hooks/useToggle";
+import { cn } from "@/lib/utils";
 
 type LabelInputProps = {
   id: string;
   label?: string;
+  className?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-const LabelInput = ({ id, label, ...props }: LabelInputProps) => {
+const LabelInput = ({ id, label, className, ...props }: LabelInputProps) => {
   const [showPassword, handleShowPassword] = useToggle(false);
 
   return (
-    <>
-      <Label htmlFor={id}>{label}</Label>
+    <Container className={cn("space-y-2", className)}>
+      {label && <Label htmlFor={id}>{label}</Label>}
       {id !== "password" ? (
         <Input id={id} name={id} {...props} className="bg-white/50 text-slate-800 font-semibold" />
       ) : (
@@ -40,7 +42,7 @@ const LabelInput = ({ id, label, ...props }: LabelInputProps) => {
           </Button>
         </Container>
       )}
-    </>
+    </Container>
   );
 };
 

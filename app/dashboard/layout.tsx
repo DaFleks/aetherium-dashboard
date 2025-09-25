@@ -16,9 +16,9 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
         <Container center className="border w-full h-full rounded-xl  relative overflow-hidden flex flex-col border-slate-300">
         <Navbar name={`${user!.firstName} ${user!.lastName}`} email={user!.email} />
 
-        <Container className="flex grow">
+        <Container className="flex grow overflow-y-auto">
           <Sidebar />
-          <Container className="bg-white/90 grow w-full !p-6">{children}</Container>
+          <Container className="bg-white/90 grow w-full !p-6 overflow-y-auto border-2">{children}</Container>
         </Container>
       </Container>
       </Container>
