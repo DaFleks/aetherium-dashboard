@@ -20,9 +20,12 @@ import provinces from "@/lib/provinces.json";
 import { userSchema } from "@/lib/formSchemas";
 import { addUser } from "@/lib/api/fetch/fetchUser";
 import { toast } from "sonner";
+import Loading from "./aetherium/Loading/Loading";
+import { useToggle } from "@/hooks/useToggle";
 
 const UserForm = () => {
   const [avatarImage, setAvatarImage] = useState<string | undefined>(undefined);
+  const [isLoading, handleIsLoading] = useToggle(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileClick = () => {
@@ -53,6 +56,7 @@ const UserForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof userSchema>) => {
+    handleIsLoading();
     const formData = new FormData();
 
     // eslint-disable-next-line prefer-const
@@ -63,7 +67,7 @@ const UserForm = () => {
     }
 
     const response = await addUser(formData);
-
+    handleIsLoading();
     if (response.status !== 200) toast.error(response.message);
 
     if (response.status === 200) {
@@ -96,6 +100,7 @@ const UserForm = () => {
                       type="file"
                       ref={inputRef}
                       className="hidden"
+                      disabled={isLoading}
                       onChange={(e) => {
                         const file = e.target.files?.[0] || null;
                         field.onChange(file);
@@ -125,7 +130,7 @@ const UserForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <LabelInput id="email" label="Email" placeholder="Email" {...field} />
+                    <LabelInput id="email" label="Email" placeholder="Email" disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -139,7 +144,7 @@ const UserForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <LabelInput id="password" label="Password" type="password" placeholder="Password" {...field} />
+                    <LabelInput id="password" label="Password" type="password" placeholder="Password" disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -157,7 +162,7 @@ const UserForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <LabelInput id="firstName" placeholder="First Name" {...field} />
+                      <LabelInput id="firstName" placeholder="First Name" disabled={isLoading} {...field} />
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>
@@ -171,7 +176,7 @@ const UserForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <LabelInput id="lastName" placeholder="Last Name" {...field} />
+                      <LabelInput id="lastName" placeholder="Last Name" disabled={isLoading} {...field} />
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>
@@ -191,7 +196,7 @@ const UserForm = () => {
                   <FormItem>
                     <Select onValueChange={field.onChange} defaultValue="GUEST">
                       <FormControl>
-                        <SelectTrigger id="role" className="w-full">
+                        <SelectTrigger id="role" className="w-full" disabled={isLoading}>
                           <SelectValue placeholder="Role" />
                         </SelectTrigger>
                       </FormControl>
@@ -214,7 +219,7 @@ const UserForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <LabelInput id="permissions" label="Permissions (comma separated)" {...field} />
+                    <LabelInput id="permissions" label="Permissions (comma separated)" disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -230,7 +235,7 @@ const UserForm = () => {
               render={({ field }) => (
                 <FormItem className="col-span-4">
                   <FormControl>
-                    <LabelInput id="streetAddress" label="Street" {...field} />
+                    <LabelInput id="streetAddress" label="Street" disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -244,7 +249,7 @@ const UserForm = () => {
               render={({ field }) => (
                 <FormItem className="col-span-2">
                   <FormControl>
-                    <LabelInput id="city" label="City" {...field} />
+                    <LabelInput id="city" label="City" disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -260,7 +265,7 @@ const UserForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <Select onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full overflow-hidden">
+                      <SelectTrigger className="w-full overflow-hidden" disabled={isLoading}>
                         <SelectValue placeholder="Province" />
                       </SelectTrigger>
                       <SelectContent side="right">
@@ -284,7 +289,7 @@ const UserForm = () => {
               render={({ field }) => (
                 <FormItem className="col-span-2">
                   <FormControl>
-                    <LabelInput id="postalCode" label="Postal Code" {...field} />
+                    <LabelInput id="postalCode" label="Postal Code" disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -298,7 +303,7 @@ const UserForm = () => {
               render={({ field }) => (
                 <FormItem className="col-span-2">
                   <FormControl>
-                    <LabelInput id="phoneNumber" label="Phone Number" {...field} />
+                    <LabelInput id="phoneNumber" label="Phone Number" disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -311,6 +316,7 @@ const UserForm = () => {
           </Button>
         </Container>
       </form>
+      {isLoading && <Loading />}
     </Form>
   );
 };
