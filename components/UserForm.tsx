@@ -18,6 +18,8 @@ import LabelInput from "./aetherium/LabelInput";
 
 import provinces from "@/lib/provinces.json";
 import { userSchema } from "@/lib/formSchemas";
+import { addUser } from "@/lib/api/fetch/fetchUser";
+import { toast } from "sonner";
 
 const UserForm = () => {
   const [avatarImage, setAvatarImage] = useState<string | undefined>(undefined);
@@ -50,8 +52,27 @@ const UserForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof userSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof userSchema>) => {
+    const formData = new FormData();
+
+    // eslint-disable-next-line prefer-const
+    for (let key in values) {
+      const typedKey = key as keyof typeof values;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      formData.append(key, values[typedKey] as any);
+    }
+
+    const response = await addUser(formData);
+
+    if (response.status !== 200) toast.error(response.message);
+
+    if (response.status === 200) {
+      toast.success("User Successfully Created!");
+      form.reset();
+      //  form.reset() didnt reset the value of the file input
+      inputRef.current!.value = "";
+      setAvatarImage(undefined);
+    }
   };
 
   return (
@@ -76,7 +97,6 @@ const UserForm = () => {
                       ref={inputRef}
                       className="hidden"
                       onChange={(e) => {
-                        console.log("ONCHANGE CALLED");
                         const file = e.target.files?.[0] || null;
                         field.onChange(file);
                         if (file) setAvatarImage(URL.createObjectURL(file));
@@ -87,7 +107,11 @@ const UserForm = () => {
               )}
             />
           </Avatar>
-          <Button variant="outline" type="button" className="w-1/2" onClick={avatarImage ? handleClearAvatar : handleFileClick}>
+          <Button
+            variant={avatarImage ? "destructive" : "outline"}
+            type="button"
+            className="w-1/2"
+            onClick={avatarImage ? handleClearAvatar : handleFileClick}>
             {`${avatarImage ? "Remove" : "Upload"} Photo`}
           </Button>
         </Container>

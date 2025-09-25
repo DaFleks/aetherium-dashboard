@@ -44,7 +44,8 @@ model User {
   avatarUrl      String?
 
   //  Relationships
-  customer Customer? // optional one-to-one
+  customer   Customer? // optional one-to-one
+  customerId String?   @unique
 }
 
 model Customer {
@@ -69,18 +70,18 @@ model Customer {
 
 model Address {
   id          String  @id @default(cuid())
-  street      String
-  city        String
-  province    String
-  postalCode  String
-  country     String
-  phoneNumber String
+  street      String?
+  city        String?
+  province    String?
+  postalCode  String?
+  country     String?
+  phoneNumber String?
   isDefault   Boolean @default(false)
 
   //  Relations
   user       User?     @relation(fields: [userId], references: [id])
   userId     String?   @unique
-  Customer   Customer? @relation(fields: [customerId], references: [id])
+  customer   Customer? @relation(fields: [customerId], references: [id])
   customerId String?
 }
 

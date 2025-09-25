@@ -14,13 +14,13 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
     <Container className="bg-gradient-to-r from-gray-300 to-slate-400 h-full flex items-center">
       <Container center className="w-2/3 h-[90%] bg-white/25 border-slate-300 border p-2 rounded-xl shadow-xl shadow-slate-400">
         <Container center className="border w-full h-full rounded-xl  relative overflow-hidden flex flex-col border-slate-300">
-        <Navbar name={`${user!.firstName} ${user!.lastName}`} email={user!.email} />
+          <Navbar name={`${user!.firstName} ${user!.lastName}`} email={user!.email} avatar={user?.avatarUrl} />
 
-        <Container className="flex grow overflow-y-auto">
-          <Sidebar />
-          <Container className="bg-white/90 grow w-full !p-6 overflow-y-auto border-2">{children}</Container>
+          <Container className="flex grow overflow-y-auto">
+            <Sidebar />
+            <Container className="bg-white/90 grow w-full !p-6 overflow-y-auto border-2">{children}</Container>
+          </Container>
         </Container>
-      </Container>
       </Container>
     </Container>
   );

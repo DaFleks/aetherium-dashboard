@@ -17,6 +17,7 @@ import Logo from "./Logo";
 interface NavbarProps {
   name: string;
   email: string;
+  avatar?: string | null;
 }
 
 const Navbar = (props: NavbarProps) => {
@@ -39,8 +40,8 @@ const Navbar = (props: NavbarProps) => {
         <Separator orientation="vertical" className="bg-slate-300 !h-[2rem] my-auto" />
         <NavButton className="space-x-2 h-fit">
           <Avatar className="size-10">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            {props.avatar && <AvatarImage src={props.avatar} />}
+            <AvatarFallback>{props.name[0]}</AvatarFallback>
           </Avatar>
           <Container className="text-left">
             <Text as="p">{props.name}</Text>
