@@ -316,7 +316,7 @@ const UserForm = () => {
           </Button>
         </Container>
       </form>
-      {isLoading && <Loading />}
+      {isLoading && <Loading variant="fixed" />}
     </Form>
   );
 };
