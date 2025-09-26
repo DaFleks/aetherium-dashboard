@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { UserCircleIcon } from "lucide-react";
+import { UserIcon } from "lucide-react";
 
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -87,7 +87,7 @@ const UserForm = () => {
           <Avatar className="size-56 text-5xl shadow-lg shadow-neutral-300">
             <AvatarImage src={avatarImage} />
             <AvatarFallback className="bg-neutral-100 border border-slate-300">
-              <UserCircleIcon className="w-24 h-24 text-neutral-400" />
+              <UserIcon className="w-24 h-24 text-neutral-400" />
             </AvatarFallback>
             <FormField
               control={form.control}

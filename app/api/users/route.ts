@@ -4,6 +4,13 @@ import bcrypt from "bcryptjs";
 
 import prisma from "@/lib/prisma";
 import { saveFile } from "@/lib/api/route/routeHelpers";
+import { auth } from "@/auth";
+
+export async function GET(req: Request) {
+  const users = await prisma.user.findMany();
+
+  return Response.json(users);
+}
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
@@ -37,7 +44,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     });
 
     //  If an avatar was provided, rename and save the file while updating the user's avatar url string
-    if (formData.get("avatar") as File) saveFile(formData.get("avatar") as File, "avatars", user.id);
+    if (formData.get("avatar")) saveFile(formData.get("avatar") as File, "avatars", user.id);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") return NextResponse.json({ message: "A user with that email already exists.", status: 201 });
@@ -47,4 +54,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 
   return NextResponse.json({ message: "User Created!", status: 200 });
+}
+
+export async function DELETE(req: NextRequest) {
+  const body = await req.json();
+  const { id } = body;
+
+  try {
+    console.log(id);
+    await prisma.user.delete({ where: { id: id } });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: error });
+  }
+
+  return NextResponse.json({ message: "user deleted!" });
 }
