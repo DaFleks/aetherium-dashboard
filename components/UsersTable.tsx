@@ -6,8 +6,7 @@ import Link from "next/link";
 import { Checkbox } from "./ui/checkbox";
 import { Button } from "./ui/button";
 import { PencilIcon, TrashIcon } from "lucide-react";
-import { Avatar, AvatarImage } from "./ui/avatar";
-import { AvatarFallback } from "@radix-ui/react-avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { deleteUser } from "@/lib/api/fetch/fetchUser";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -16,8 +15,8 @@ interface UsersTableProps {
   users: unknown;
 }
 
-const UsersTable = (props: UsersTableProps) => {
-  if (props.users === undefined) props.users = [];
+const UsersTable = ({ users, ...props }: UsersTableProps) => {
+  if (users === undefined) users = [];
 
   const router = useRouter();
 
@@ -28,7 +27,7 @@ const UsersTable = (props: UsersTableProps) => {
   };
 
   return (
-    <Table>
+    <Table {...props}>
       <TableCaption>A list of the users in the database.</TableCaption>
       <TableHeader>
         <TableRow>
@@ -40,7 +39,7 @@ const UsersTable = (props: UsersTableProps) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {props.users.map((user) => (
+        {users.map((user) => (
           <TableRow key={user.id}>
             <TableCell>
               <Checkbox className="mx-auto block" />
@@ -48,7 +47,7 @@ const UsersTable = (props: UsersTableProps) => {
             <TableCell>
               <Avatar className="mx-auto">
                 <AvatarImage src={user.avatarUrl} />
-                <AvatarFallback></AvatarFallback>
+                <AvatarFallback>{user.firstName[0] + user.lastName[0]}</AvatarFallback>
               </Avatar>
             </TableCell>
             <TableCell>

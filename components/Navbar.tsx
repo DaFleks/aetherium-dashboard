@@ -27,11 +27,6 @@ const Navbar = (props: NavbarProps) => {
         <Container className=" flex items-center h-full px-4">
           <Logo nav />
         </Container>
-
-        <Container className="w-1/2 flex items-center gap-0 border rounded-md px-2">
-          <SearchIcon className="w-4 h-4" />
-          <Input placeholder="Search..." className="border-none focus-visible:ring-ring/0" />
-        </Container>
       </Container>
 
       <Container className="flex gap-4 justify-self-end-safe h-full items-center">

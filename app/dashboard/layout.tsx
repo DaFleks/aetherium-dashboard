@@ -4,6 +4,8 @@ import prisma from "@/lib/prisma";
 import Container from "@/components/aetherium/Container";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import Heading from "@/components/aetherium/Heading";
+import { Separator } from "@/components/ui/separator";
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth();
@@ -18,7 +20,13 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
 
           <Container className="flex grow overflow-y-auto">
             <Sidebar />
-            <Container className="bg-white/90 grow w-full !p-6 overflow-y-auto border-2">{children}</Container>
+            <Container as="main" className="bg-white/90 grow w-full !p-6 overflow-y-auto flex flex-col border">
+              <Heading as="h2" className="text-slate-700">
+                Users
+              </Heading>
+              <Separator className="bg-gradient-to-r from-slate-300 to-transparent mt-2 mb-4" />
+              {children}
+            </Container>
           </Container>
         </Container>
       </Container>
